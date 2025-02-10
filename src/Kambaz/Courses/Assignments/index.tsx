@@ -1,7 +1,6 @@
-import { Col, Container, ListGroup, Row } from "react-bootstrap";
+import { Col, ListGroup, Row } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 import LessonControlButtons from "../Modules/LessonControlButtons";
-import ModulesControls from "../Modules/ModulesControls";
 import AssignmentControls from "./AssignmentControls";
 import { FaCaretDown } from "react-icons/fa6";
 import AssignmentControlButtons from "./AssignmentControlButtons";
