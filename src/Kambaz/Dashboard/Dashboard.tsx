@@ -1,6 +1,10 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router";
-import * as db from "./Database";
+// import * as db from "./Database";
+import db from "./Database"
+
+
+// src/Kambaz/Database/courses.json
 
 export default function Dashboard() {
     const courses = db.courses;
@@ -11,7 +15,7 @@ export default function Dashboard() {
             <div id="wd-dashboard-courses">
                 <div className="wd-dashboard-course">
                 <Row xs={1} md={5} className="g-4">
-                    {courses.map((course) => (
+                    {courses.map((course : any) => (
                     <Col className="wd-dashboard-course" style={{ width: "300px" }}>
                         <Card>
                         <Link to={`/Kambaz/Courses/${course._id}/Home`}
@@ -26,8 +30,9 @@ export default function Dashboard() {
                         </Link>
                         </Card>
                     </Col>
+                    
 
-                    {/* <Col className="wd-dashboard-course" style={{ width: "300px" }}>
+                    /* {<Col className="wd-dashboard-course" style={{ width: "300px" }}>
                         <Card>
                         <Link to="Kambaz/Courses/3500/Home"
                             className="wd-dashboard-course-link text-decoration-none text-dark">
@@ -114,8 +119,9 @@ export default function Dashboard() {
                         <Button variant="primary">Go</Button>
                         </Card.Body>
                         </Link>
-                        </Card> */}
-                    </Col>
+                        </Card> }*/
+                    // </Col>
+                    ))}
                 </Row>
             </div>
         </div>
