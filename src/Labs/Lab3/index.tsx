@@ -1,8 +1,34 @@
+import Add from "./Add";
+import AddingAndRemovingToFromArrays from "./AddingAndRemovingToFromArrays";
+import ArrayIndexAndLength from "./ArrayIndexAndLength";
+import ArrowFunctions from "./ArrowFunctions";
+import Classes from "./Classes";
 import ConditionalOutputIfElse from "./ConditionalOutputIfElse";
+import ConditionalOutputInline from "./ConditionalOutputInLine";
+import Destructing from "./Destructing";
+import DestructingImports from "./DestructingImports";
+import FilterFunction from "./FilterFunction";
+import FindFunction from "./FindFunction";
+import FindIndex from "./FindIndex";
+import ForLoops from "./ForLoops";
+import FunctionDestructing from "./FunctionDestructing";
+import Highlight from "./Highlights";
+import House from "./House";
 import IfElse from "./IfElse";
+import ImpliedReturn from "./ImpliedReturn";
+import JsonStringify from "./JsonStringify";
+import LegacyFunctions from "./LegacyFunctions";
+import MapFunction from "./MapFunction";
+import Math from "./Math";
+import SimpleArrays from "./SImpleArrays";
+import Spreading from "./Spreading";
+import Square from "./Square";
+import TemplateLiterals from "./TemplateLiterals";
 import TernaryOperator from "./TernaryOperator";
 import VariableTypes from "./VariableTypes";
 import VariablesAndConstants from "./VariablesAndConstants";
+import TodoItem from "./todos/TodoItem";
+import TodoList from "./todos/TodoList";
 
 export default function Lab3() {
     return (
@@ -13,6 +39,36 @@ export default function Lab3() {
         <IfElse />
         <TernaryOperator />
         <ConditionalOutputIfElse />
+        <ConditionalOutputInline />
+        <LegacyFunctions />
+        <ArrowFunctions />
+        <ImpliedReturn />
+        <TemplateLiterals />
+        <SimpleArrays />
+        <ArrayIndexAndLength />
+        <AddingAndRemovingToFromArrays />
+        <ForLoops />
+        <MapFunction />
+        <FindFunction />
+        <FindIndex />
+        <FilterFunction />
+        <JsonStringify />
+        <House />
+        <TodoItem />
+        <TodoList />
+        <Spreading />
+        <Destructing />
+        <FunctionDestructing />
+        <DestructingImports />
+        <Classes />
+        <Add a={3} b={4} />
+        <h4>Square of 4</h4>
+      <Square>4</Square>
+      <hr />
+      <Highlight>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione eaque illo minus cum, saepe totam
+        vel nihil repellat nemo explicabo excepturi consectetur. Modi omnis minus sequi maiores, provident voluptates.
+     </Highlight>
       </div>
     );
   }
