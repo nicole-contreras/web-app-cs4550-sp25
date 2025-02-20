@@ -1,4 +1,3 @@
-import React from "react";
 import Math, { add, subtract, multiply, divide } from "./Math";
 import * as Matematica from "./Math";
 export default function DestructingImports() {
@@ -25,6 +24,18 @@ export default function DestructingImports() {
             <td>Matematica.subtract(5, 1) =
                 {Matematica.subtract(5, 1)}</td>
             <td>subtract(5, 1) = {subtract(5, 1)}</td>
+            </tr>
+            <tr>
+            <td>Math.multiply(10, 2) = {Math.multiply(10, 2)}</td>
+            <td>Matematica.multiply(10, 2) =
+                {Matematica.multiply(10, 2)}</td>
+            <td>multiply(5, 1) = {multiply(10, 2)}</td>
+            </tr>
+            <tr>
+            <td>Math.divide(10, 2) = {Math.divide(10, 2)}</td>
+            <td>Matematica.divide(5, 1) =
+                {Matematica.divide(10, 2)}</td>
+            <td>divide(10, 2) = {divide(10, 2)}</td>
             </tr>
         </tbody>
       </table>

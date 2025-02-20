@@ -19,7 +19,6 @@ import ImpliedReturn from "./ImpliedReturn";
 import JsonStringify from "./JsonStringify";
 import LegacyFunctions from "./LegacyFunctions";
 import MapFunction from "./MapFunction";
-import Math from "./Math";
 import SimpleArrays from "./SImpleArrays";
 import Spreading from "./Spreading";
 import Square from "./Square";
