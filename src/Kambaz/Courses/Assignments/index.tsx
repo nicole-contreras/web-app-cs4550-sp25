@@ -10,7 +10,6 @@ import { Link } from "react-router";
 
 export default function Assignments() {
       const { cid } = useParams();
-      const modules = db.modules;
 
     return (
       <div id="wd-assignments">

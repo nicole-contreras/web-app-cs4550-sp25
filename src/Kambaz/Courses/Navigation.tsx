@@ -1,13 +1,12 @@
 import { ListGroup } from "react-bootstrap";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { courses } from "../Database";
+// import { courses } from "../Database";
 
 export default function CourseNavigation() {
   const { pathname } = useLocation();
   const { cid } = useParams(); // Get course ID from URL
 
-  // Find the current course based on cid
-  const course = courses.find((course: any) => course._id === cid);
+  // const course = courses.find((course: any) => course._id === cid);
 
   const links = [
     { label: "Home", path: `/Kambaz/Courses/${cid}/Home` },
