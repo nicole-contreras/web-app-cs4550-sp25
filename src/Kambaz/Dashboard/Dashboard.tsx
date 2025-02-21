@@ -1,10 +1,9 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router";
-// import * as db from "./Database";
-import db from "./Database"
+
+import * as db from  "../Database";
 
 
-// src/Kambaz/Database/courses.json
 
 export default function Dashboard() {
     const courses = db.courses;

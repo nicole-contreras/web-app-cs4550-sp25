@@ -1,0 +1,30 @@
+[
+    {
+      "id": "m1",
+      "name": "Week 1",
+      "course": "RS102",
+      "lessons": [
+        { "id": "l1", "name": "Course Overview" },
+        { "id": "l2", "name": "Introduction to Web Development" }
+      ]
+    },
+    {
+      "id": "m2",
+      "name": "Week 2 - HTML & CSS",
+      "course": "cs1234",
+      "lessons": [
+        { "id": "l3", "name": "HTML Basics" },
+        { "id": "l4", "name": "CSS Fundamentals" }
+      ]
+    },
+    {
+      "id": "m3",
+      "name": "Week 3 - JavaScript",
+      "course": "cs1234",
+      "lessons": [
+        { "id": "l5", "name": "JavaScript Introduction" },
+        { "id": "l6", "name": "Functions & Loops" }
+      ]
+    }
+  ]
+  
