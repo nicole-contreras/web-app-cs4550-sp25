@@ -7,6 +7,15 @@ import { enrollUser, unenrollUser } from "../Enrollments/reducer";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Dashboard() {
+    type Course = {
+        _id: string;
+        name: string;
+        description: string;
+        number?: string;
+        startDate?: string;
+        endDate?: string;
+        image?: string;
+      };
   const dispatch = useDispatch();
 
   const courses = useSelector((state: any) => state.courseReducer.courses);
@@ -76,7 +85,7 @@ export default function Dashboard() {
     }
   };
 
-  const displayedCourses = showAllCourses ? courses : courses.filter((c) => isEnrolled(c._id));
+  const displayedCourses = showAllCourses ? courses : courses.filter((c: Course) => isEnrolled(c._id));
 
   return (
     <div id="wd-dashboard">
@@ -113,7 +122,7 @@ export default function Dashboard() {
       <h2 id="wd-dashboard-published">Published Courses ({displayedCourses.length})</h2> <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
-          {displayedCourses.map((course) => (
+          {displayedCourses.map((course: Course) => (
             <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
               <Card>
                 <Link to={`/Kambaz/Courses/${course._id}/Home`} className="wd-dashboard-course-link text-decoration-none text-dark">
