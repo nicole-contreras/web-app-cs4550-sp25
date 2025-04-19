@@ -6,7 +6,6 @@ export default function CourseNavigation() {
   const { pathname } = useLocation();
   const { cid } = useParams(); // Get course ID from URL
 
-  // const course = courses.find((course: any) => course._id === cid);
 
   const links = [
     { label: "Home", path: `/Kambaz/Courses/${cid}/Home` },

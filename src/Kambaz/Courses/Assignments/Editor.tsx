@@ -1,220 +1,217 @@
-// import { Button, Col, Container, Form, FormLabel, Row } from "react-bootstrap";
-// import { useParams } from "react-router-dom";
-// import * as db from "../../Database"; 
-
-// export default function AssignmentEditor() {
-//     const { cid, aid } = useParams(); 
-
-//     const assignment = db.assignments.find((a) => a._id === aid && a.course === cid);
-
-//     if (!assignment) {
-//         return <h3 className="text-center text-danger">Assignment not found</h3>;
-//     }
-
-//     return (
-//       <div id="wd-assignments-editor">
-//         <Container className="mt-4" style={{ maxWidth: '50%' }}>
-//         <h2>Edit Assignment</h2>
-//       <Form>
-//         {/* Assignment Name */}
-//         <Form.Group className="mb-3">
-//           <Form.Label>Assignment Name</Form.Label>
-//           <Form.Control
-//             type="text"
-//             name="name"
-//             defaultValue={assignment._id} 
-//           />
-//         </Form.Group>
-
-//         {/* Description */}
-//         <Form.Group className="mb-3">
-//           <Form.Label>Description</Form.Label>
-//           <Form.Control
-//             as="textarea"
-//             rows={6}
-//             name="description"
-//             defaultValue={assignment.description || "No description available"} 
-//           />
-//         </Form.Group>
-
-//         {/* Points */}
-//         <Form.Group as={Row} className="mb-3">
-//         <FormLabel as="legend" column sm={2}>Points</FormLabel>
-//         <Col>
-//           <Form.Control
-//             type="number"
-//             name="points"
-//             defaultValue={assignment.pts} 
-//           />
-//           </Col>
-//         </Form.Group>
-
-//         {/* Assignment Group */}
-//         <Form.Group as={Row} className="mb-3">
-//         <FormLabel as="legend" column sm={2}>Assignment Group</FormLabel>
-//         <Col>
-//           <Form.Select
-//             name="assignmentGroup"
-//             defaultValue={assignment.group || "ASSIGNMENTS"}
-//           >
-//             <option value="ASSIGNMENTS">ASSIGNMENTS</option>
-//             <option value="QUIZZES">QUIZZES</option>
-//             <option value="PROJECTS">PROJECTS</option>
-//           </Form.Select>
-//           </Col>
-//         </Form.Group>
-
-//         {/* Display Grade As */}
-//         <Form.Group as={Row} className="mb-3">
-//         <FormLabel as="legend" column sm={2}>Display Grade As</FormLabel>
-//         <Col>
-//           <Form.Select
-//             name="displayGradeAs"
-//             defaultValue={assignment.gradeType || "Percentage"} 
-//           >
-//             <option value="Percentage">Percentage</option>
-//             <option value="Points">Points</option>
-//             <option value="Complete/Incomplete">Complete/Incomplete</option>
-//           </Form.Select>
-//           </Col>
-//         </Form.Group>
-
-//         {/* Submission Type */}
-//         <Form.Group as={Row} className="mb-3">
-//         <FormLabel as="legend" column sm={2}>Submission Type</FormLabel>
-//         <Col>
-//           <Form.Select
-//             name="submissionType"
-//             defaultValue={assignment.submissionType || "Online"} 
-//           >
-//             <option value="Online">Online</option>
-//             <option value="External Tool">External Tool</option>
-//           </Form.Select>
-//           </Col>
-//         </Form.Group>
-
-//         {/* Due Date & Availability */}
-//         <Row className="mb-3 d-flex justify-content-center">
-//             <Col sm={8}>
-//                 <Form.Group>
-//                 <Form.Label>Due Date</Form.Label>
-//                 <Form.Control
-//                     type="datetime-local"
-//                     name="dueDate"
-//                     defaultValue={assignment.due_date}
-//                 />
-//                 </Form.Group>
-//             </Col>
-//           </Row>
-//           <Row className="mb-3 d-flex justify-content-center">
-//             <Col sm={4}>
-//                 <Form.Group>
-//                 <Form.Label>Available From</Form.Label>
-//                 <Form.Control type="datetime-local" name="availableFrom" defaultValue={assignment.available_from} />
-//                 </Form.Group>
-//             </Col>
-//             <Col sm={4}>
-//                 <Form.Group>
-//                 <Form.Label>Until</Form.Label>
-//                 <Form.Control type="datetime-local" name="availableUntil" defaultValue={assignment.until_date} />
-//                 </Form.Group>
-//             </Col>
-//             </Row>
-
-//         {/* Buttons */}
-//         <div className="d-flex justify-content-end mt-3">
-//           <Button variant="secondary" className="me-2">
-//             Cancel
-//           </Button>
-//           <Button variant="danger">Save</Button>
-//         </div>
-//       </Form>
-//         </Container>
-//         </div>
-//     );
-// }
-
-
-import { useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+  addAssignment,
+  updateAssignment,
+} from "./reducer";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { addAssignment, updateAssignment } from "./reducer";
-import { v4 as uuidv4 } from "uuid";
+import { useSelector } from "react-redux";
+import * as assignmentsClient from "./client";
 
-export default function AssignmentEditor() {
+export default function AssignmentEditor({
+  dialogTitle,
+  assignmentTitle = "",
+  assignmentDescription = "",
+  assignmentPoints = 100,
+  assignmentDueDate = "",
+  assignmentAvailableFromDate = "",
+  assignmentAvailableUntilDate = "",
+  isEdit = false,
+}: {
+  dialogTitle?: string;
+  assignmentTitle?: string;
+  assignmentDescription?: string;
+  assignmentPoints?: number;
+  assignmentDueDate?: string;
+  assignmentAvailableFromDate?: string;
+  assignmentAvailableUntilDate?: string;
+  isEdit?: boolean;
+}) {
   const { cid, aid } = useParams();
-  const { assignments } = useSelector((state: any) => state.assignmentsReducer) || { assignments: [] };
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const isNew = aid === "new";
-  const existingAssignment = assignments.find((a: { _id: string | undefined; course: string | undefined; }) => a._id === aid && a.course === cid);
+  const { assignments = [] } = useSelector((state: any) => state.assignmentsReducer ?? {});
 
-  const [assignment, setAssignment] = useState(
-    isNew
-      ? { _id: uuidv4(), name: "", description: "", points: 100, due: "", available: "", course: cid }
-      : existingAssignment
+  const assignmentToEdit = isEdit
+    ? assignments.find((assignment: any) => assignment._id === aid)
+    : null;
+
+  const [title, setTitle] = useState(assignmentTitle);
+  const [description, setDescription] = useState(assignmentDescription);
+  const [points, setPoints] = useState(assignmentPoints);
+  const [dueDate, setDueDate] = useState(assignmentDueDate);
+  const [availableFrom, setAvailableFrom] = useState(
+    assignmentAvailableFromDate
+  );
+  const [availableUntil, setAvailableUntil] = useState(
+    assignmentAvailableUntilDate
   );
 
-  if (!assignment) {
-    return <h3 className="text-center text-danger">Assignment not found</h3>;
-  }
+  useEffect(() => {
+    if (isEdit && assignmentToEdit) {
+      setTitle(assignmentToEdit.title || "");
+      setDescription(assignmentToEdit.description || "");
+      setPoints(assignmentToEdit.points || 100);
+      setDueDate(assignmentToEdit.dueDate || "");
+      setAvailableFrom(assignmentToEdit.availableFromDate || "");
+      setAvailableUntil(assignmentToEdit.availableUntilDate || "");
+    }
+  }, [assignmentToEdit, isEdit]);
+
+  const generateUniqueId = () => Date.now().toString();
+
+  const createAssignmentForCourse = async () => {
+    if (!cid) return;
+    const newAssignment = {
+      _id: Date.now().toString(),
+      title,
+      description,
+      points,
+      dueDate,
+      availableFromDate: availableFrom,
+      availableUntilDate: availableUntil,
+      course: cid,
+    };
+
+    const assignment = await assignmentsClient.createAssignment(newAssignment);
+
+    dispatch(addAssignment(assignment));
+  };
+  const saveAssignment = async (assignment: any) => {
+    await assignmentsClient.updateAssignment(assignment);
+    dispatch(updateAssignment(assignment));
+  };
 
   const handleSave = () => {
-    if (isNew) {
-      dispatch(addAssignment(assignment)); // Create new assignment
+    const assignmentData = {
+      _id: aid || generateUniqueId(),
+      title,
+      description,
+      points,
+      dueDate,
+      availableFromDate: availableFrom,
+      availableUntilDate: availableUntil,
+      course: cid,
+    };
+    if (isEdit) {
+      saveAssignment(assignmentData);
     } else {
-      dispatch(updateAssignment(assignment)); // Update existing assignment
+      createAssignmentForCourse();
     }
     navigate(`/Kambaz/Courses/${cid}/Assignments`);
   };
 
   return (
-    <div id="wd-assignments-editor">
-      <Container className="mt-4" style={{ maxWidth: "50%" }}>
-        <h2>{isNew ? "Create Assignment" : "Edit Assignment"}</h2>
-        <Form>
-          <Form.Group className="mb-3">
-            <Form.Label>Assignment Name</Form.Label>
-            <Form.Control
-              type="text"
-              value={assignment.title}
-              onChange={(e) => setAssignment({ ...assignment, name: e.target.value })}
+    <div style={{ padding: "20px" }}>
+      <h1>{dialogTitle}</h1>
+      <div className="mb-3">
+        <label htmlFor="wd-name" className="form-label">
+          Assignment Name
+        </label>
+        <input
+          id="wd-name"
+          type="text"
+          className="form-control"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="wd-description" className="form-label">
+          Description
+        </label>
+        <textarea
+          id="wd-description"
+          className="form-control"
+          rows={5}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
+      <div className="row mb-3">
+        <div className="col-sm-2 text-end align-middle">
+          <label htmlFor="wd-points" className="form-label">
+            Points
+          </label>
+        </div>
+        <div className="col-sm-10">
+          <input
+            id="wd-points"
+            type="number"
+            className="form-control"
+            value={points}
+            onChange={(e) => setPoints(parseInt(e.target.value))}
+          />
+        </div>
+      </div>
+      <div className="row mb-3">
+        <div className="col-sm-2 text-end align-middle">
+          <label htmlFor="wd-assign-to" className="form-label">
+            Assign
+          </label>
+        </div>
+        <div className="col-sm-10">
+          <div className="form-control p-3">
+            <b>Due</b>
+            <label htmlFor="wd-due-date" className="form-label"></label>
+            <input
+              type="date"
+              id="wd-due-date"
+              className="form-control"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
             />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={6}
-              value={assignment.description}
-              onChange={(e) => setAssignment({ ...assignment, description: e.target.value })}
-            />
-          </Form.Group>
-
-          <Row className="mb-3">
-            <Col sm={6}>
-              <Form.Label>Due Date</Form.Label>
-              <Form.Control
-                type="datetime-local"
-                value={assignment.due}
-                onChange={(e) => setAssignment({ ...assignment, due: e.target.value })}
-              />
-            </Col>
-          </Row>
-
-          <div className="d-flex justify-content-end mt-3">
-            <Button variant="secondary" className="me-2" onClick={() => navigate(`/Kambaz/Courses/${cid}/Assignments`)}>
-              Cancel
-            </Button>
-            <Button variant="danger" onClick={handleSave}>
-              Save
-            </Button>
+            <br />
+            <div className="row">
+              <div className="col-sm-6">
+                <label
+                  htmlFor="wd-available-from"
+                  className="form-label"
+                  style={{ marginRight: "10px" }}
+                >
+                  <b>Available from</b>
+                </label>
+                <input
+                  type="date"
+                  id="wd-available-from"
+                  className="form-control"
+                  value={availableFrom}
+                  onChange={(e) => setAvailableFrom(e.target.value)}
+                />
+              </div>
+              <div className="col-sm-6">
+                <label
+                  htmlFor="wd-available-until"
+                  className="form-label"
+                  style={{ marginRight: "10px" }}
+                >
+                  <b>Until</b>
+                </label>
+                <input
+                  type="date"
+                  id="wd-available-until"
+                  className="form-control"
+                  value={availableUntil}
+                  onChange={(e) => setAvailableUntil(e.target.value)}
+                />
+              </div>
+            </div>
           </div>
-        </Form>
-      </Container>
+        </div>
+      </div>
+      <div className="d-flex justify-content-end">
+        <button
+          type="button"
+          className="btn btn-secondary me-2"
+          onClick={() => navigate(`/Kambaz/Courses/${cid}/Assignments`)}
+        >
+          Cancel
+        </button>
+        <button type="button" className="btn btn-danger" onClick={handleSave}>
+          {isEdit ? "Save" : "Save"}
+        </button>
+      </div>
     </div>
   );
 }

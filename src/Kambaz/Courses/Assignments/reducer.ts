@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { assignments } from "../../Database"; 
+import * as Database from "../../Database";
 import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
-  assignments: assignments, 
+  assignments: Database.assignments || [],
 };
 
 const assignmentsSlice = createSlice({

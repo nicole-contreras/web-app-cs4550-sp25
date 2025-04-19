@@ -37,6 +37,9 @@ export default function TOC() {
           <Nav.Item>
             <Nav.Link href="https://github.com/nicole-contreras/web-app-cs4550-sp25">My GitHub</Nav.Link>
           </Nav.Item>
+          <Nav.Item>
+            <Nav.Link to="/Labs/Lab5" as={Link} active={pathname.includes("Lab5")}>Lab 5</Nav.Link>
+          </Nav.Item>
       </Nav>
     );
   }
