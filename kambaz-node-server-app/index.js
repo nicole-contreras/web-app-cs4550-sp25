@@ -30,6 +30,13 @@ const sessionOptions = {
     secure: false     
   },
 };
+if (process.env.NODE_ENV === "production") {
+  sessionOptions.cookie = {
+    sameSite: "none",
+    secure: true,
+  };
+  sessionOptions.proxy = true;
+}
 
 if (process.env.NODE_ENV === "development") {
   sessionOptions.cookie.sameSite = "lax";
