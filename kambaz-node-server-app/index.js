@@ -3,7 +3,6 @@ import cors from "cors";
 import session from "express-session";
 import "dotenv/config";
 
-// Import your routes
 import Hello from "./Hello.js";
 import QueryParameters from "./Lab5/QueryParameters.js";
 import Lab5 from "./Lab5/index.js";
@@ -14,44 +13,45 @@ import AssignmentRoutes from "./Kambaz/Assignments/routes.js";
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://a5--jovial-cactus-4ff90b.netlify.app",
+];
+
 app.use(
   cors({
-    origin: process.env.NETLIFY_URL || "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.error("❌ CORS blocked:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
 
+// ✅ SESSION CONFIG
 const sessionOptions = {
-  secret: process.env.SESSION_SECRET || "kambaz", 
+  secret: process.env.SESSION_SECRET || "kambaz",
   resave: false,
   saveUninitialized: false,
-  cookie: {
-    sameSite: "lax",
-    secure: false     
-  },
+  cookie: {},
 };
+
 if (process.env.NODE_ENV === "production") {
   sessionOptions.cookie = {
     sameSite: "none",
     secure: true,
   };
   sessionOptions.proxy = true;
-}
-
-if (process.env.NODE_ENV === "development") {
+} else {
   sessionOptions.cookie.sameSite = "lax";
   sessionOptions.cookie.secure = false;
-} else {
-  sessionOptions.proxy = true; 
-  sessionOptions.cookie = {
-    sameSite: "none",
-    secure: true,
-    domain: process.env.NODE_SERVER_DOMAIN, 
-  };
 }
 
 app.use(session(sessionOptions));
-
 app.use(express.json());
 
 Hello(app);
@@ -64,5 +64,5 @@ AssignmentRoutes(app);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
