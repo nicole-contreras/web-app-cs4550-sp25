@@ -14,13 +14,9 @@ import KambazNavigation from "./Navigation";
 
 
 import { useEffect } from "react";
-import axios from "axios";
 
 export default function Kambaz() {
-    const axiosWithCredentials = axios.create({
-        withCredentials: true,
-      });
-      
+
   const [courses, setCourses] = useState<any[]>([]);
 
   const [course, setCourse] = useState<any>({
@@ -34,7 +30,7 @@ export default function Kambaz() {
   };
 
   const deleteCourse = async (courseId: string) => {
-    const status = await courseClient.deleteCourse(courseId);
+    await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
   };
 
