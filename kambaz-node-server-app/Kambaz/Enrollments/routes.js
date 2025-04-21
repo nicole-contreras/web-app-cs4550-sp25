@@ -13,7 +13,7 @@ export default function EnrollmentRoutes(app) {
     res.send(status);
   });
 
-  app.get("/api/enrollments/:userId/", async (req, res) => {
+  app.get("/api/enrollments/:userId", async (req, res) => {
     const { userId } = req.params;
     const courses = await dao.findCoursesForUser(userId);
     res.send(courses);
