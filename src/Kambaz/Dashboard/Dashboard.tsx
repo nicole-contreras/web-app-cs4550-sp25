@@ -271,7 +271,7 @@ import { Row, Col, Card, Button, FormControl } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
-  getEnrollmentsForCurrentUser,
+  findEnrollments,
   createEnrollment,
   unenrollUserFromCourse,
 } from "../Enrollments/client";
@@ -307,8 +307,8 @@ export default function Dashboard({
 
   const fetchEnrollments = async () => {
     try {
-      const enrollments = await getEnrollmentsForCurrentUser();
-      console.log("Fetched enrollments:", enrollments); // ← add this
+      const enrollments = await findEnrollments(currentUser._id);
+      console.log("Fetched enrollments:", enrollments); 
       setEnrollments(enrollments);
     } catch (error) {
       console.error("Error fetching enrollments:", error);

@@ -89,8 +89,6 @@ export default function Kambaz() {
                     addCourse={addNewCourse}
                     deleteCourse={deleteCourse}
                     updateCourse={updateCourse}
-                    enrollInCourse={enrollInCourse}
-                    unenrollFromCourse={unenrollFromCourse}
                   />{" "}
                 </ProtectedRoute>
               }
