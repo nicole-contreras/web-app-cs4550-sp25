@@ -14,6 +14,7 @@ import KambazNavigation from "./Navigation";
 
 
 import { useEffect } from "react";
+import { addCourse } from "./Courses/reducer";
 
 export default function Kambaz() {
 
@@ -82,14 +83,16 @@ export default function Kambaz() {
               path="/Dashboard"
               element={
                 <ProtectedRoute>
-                  <Dashboard
-                    courses={courses}
-                    course={course}
-                    setCourse={setCourse}
-                    addCourse={addNewCourse}
-                    deleteCourse={deleteCourse}
-                    updateCourse={updateCourse}
-                  />{" "}
+                    <Dashboard
+                      courses={courses}
+                      course={course}
+                      setCourse={setCourse}
+                      addCourse={addCourse}
+                      deleteCourse={deleteCourse}
+                      updateCourse={updateCourse}
+                      enrollInCourse={enrollmentsClient.createEnrollment}
+                      unenrollFromCourse={enrollmentsClient.unenrollUserFromCourse}
+                    />
                 </ProtectedRoute>
               }
             />
