@@ -19,7 +19,7 @@ mongoose.connect(CONNECTION_STRING);
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://a5--jovial-cactus-4ff90b.netlify.app",
+  "https://a6--jovial-cactus-4ff90b.netlify.app",
 ];
 
 app.use(
