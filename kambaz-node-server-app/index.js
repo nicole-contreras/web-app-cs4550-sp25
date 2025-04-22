@@ -35,23 +35,35 @@ app.use(
   })
 );
 
+// const sessionOptions = {
+//   secret: process.env.SESSION_SECRET || "kambaz",
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {},
+// };
+app.set("trust proxy", 1);
+
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || "kambaz",
   resave: false,
   saveUninitialized: false,
-  cookie: {},
+  proxy: true,
+  cookie: {
+    sameSite: "none",  
+    secure: true      
+  }
 };
 
-if (process.env.NODE_ENV === "production") {
-  sessionOptions.cookie = {
-    sameSite: "none",
-    secure: true,
-  };
-  sessionOptions.proxy = true;
-} else {
-  sessionOptions.cookie.sameSite = "lax";
-  sessionOptions.cookie.secure = false;
-}
+// if (process.env.NODE_ENV === "production") {
+//   sessionOptions.cookie = {
+//     sameSite: "none",
+//     secure: true,
+//   };
+//   sessionOptions.proxy = true;
+// } else {
+//   sessionOptions.cookie.sameSite = "lax";
+//   sessionOptions.cookie.secure = false;
+// }
 
 app.use(session(sessionOptions));
 app.use(express.json());
@@ -66,6 +78,10 @@ AssignmentRoutes(app);
 EnrollmentRoutes(app);
 
 const PORT = process.env.PORT || 4000;
+app.use((req, res, next) => {
+  console.log(`📥 Received ${req.method} ${req.url}`);
+  next();
+});
 app.listen(PORT, () => {
   console.log(` Server running on port ${PORT}`);
 });

@@ -2,14 +2,10 @@ import { useState } from "react";
 
 export default function EnrollmentButton({
     isEnrolled,
-    courseId,
-    userId,
     onEnroll,
     onUnenroll,
   }: {
     isEnrolled: boolean;
-    courseId: string;
-    userId: string;
     onEnroll: () => Promise<void>;
     onUnenroll: () => Promise<void>;
   }) {

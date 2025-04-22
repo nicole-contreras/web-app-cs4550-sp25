@@ -25,11 +25,6 @@ export default function Kambaz() {
     description: "New course description",
   });
 
-  const addNewCourse = async () => {
-    const newCourse = await userClient.createCourse(course);
-    setCourses([...courses, newCourse]);
-  };
-
   const deleteCourse = async (courseId: string) => {
     await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
@@ -48,15 +43,6 @@ export default function Kambaz() {
     );
   };
 
-  const enrollInCourse = async (userId: string, courseId: string) => {
-    await enrollmentsClient.createEnrollment(userId, courseId);
-    fetchCourses();
-  };
-
-  const unenrollFromCourse = async (userId: string, courseId: string) => {
-    await enrollmentsClient.unenrollUserFromCourse(userId, courseId);
-    fetchCourses();
-  };
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const fetchCourses = async () => {

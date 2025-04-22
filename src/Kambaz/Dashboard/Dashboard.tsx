@@ -693,9 +693,7 @@ console.log("Visible courses:", visibleCourses);
                     
                    {currentUser.role === "STUDENT" && (
                      <EnrollmentButton
-                       courseId={course._id}
                        isEnrolled={isEnrolled(course._id)}
-                       userId={currentUser._id}
                        onEnroll={async () => {
                          await enrollInCourse(currentUser._id, course._id);
                          await fetchEnrollments();

@@ -40,6 +40,8 @@ export default function UserRoutes(app) {
   };
 
   const signin = async (req, res) => {
+    console.log("🔐 Login attempt:", req.body);
+
     const { username, password } = req.body;
     const currentUser = await dao.findUserByCredentials(username, password);
     if (currentUser) {
@@ -77,7 +79,6 @@ export default function UserRoutes(app) {
     const courses = courseDao.findCoursesForEnrolledUser(userId);
     res.json(courses);
   };
-
 
 
   const createCourse = async (req, res) => {
