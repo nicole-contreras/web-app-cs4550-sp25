@@ -14,13 +14,10 @@ import KambazNavigation from "./Navigation";
 
 
 import { useEffect } from "react";
-import axios from "axios";
+import { addCourse } from "./Courses/reducer";
 
 export default function Kambaz() {
-    const axiosWithCredentials = axios.create({
-        withCredentials: true,
-      });
-      
+
   const [courses, setCourses] = useState<any[]>([]);
 
   const [course, setCourse] = useState<any>({
@@ -34,7 +31,7 @@ export default function Kambaz() {
   };
 
   const deleteCourse = async (courseId: string) => {
-    const status = await courseClient.deleteCourse(courseId);
+    await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
   };
 
@@ -86,16 +83,16 @@ export default function Kambaz() {
               path="/Dashboard"
               element={
                 <ProtectedRoute>
-                  <Dashboard
-                    courses={courses}
-                    course={course}
-                    setCourse={setCourse}
-                    addCourse={addNewCourse}
-                    deleteCourse={deleteCourse}
-                    updateCourse={updateCourse}
-                    enrollInCourse={enrollInCourse}
-                    unenrollFromCourse={unenrollFromCourse}
-                  />{" "}
+                    <Dashboard
+                      courses={courses}
+                      course={course}
+                      setCourse={setCourse}
+                      addCourse={addCourse}
+                      deleteCourse={deleteCourse}
+                      updateCourse={updateCourse}
+                      enrollInCourse={enrollmentsClient.createEnrollment}
+                      unenrollFromCourse={enrollmentsClient.unenrollUserFromCourse}
+                    />
                 </ProtectedRoute>
               }
             />
